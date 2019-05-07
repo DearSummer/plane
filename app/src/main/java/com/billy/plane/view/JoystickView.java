@@ -131,9 +131,14 @@ public class JoystickView extends View {
             measureHeight = radius;
         }
 
+        int cx = measureWidth / 2;
+        int cy = measureHeight / 2;
+
+        centerPos.set(cx, cy);
+        joystickPos.set(cx,cy);
+
         setMeasuredDimension(measureWidth,measureHeight);
     }
-
 
     Rect res = new Rect(),dst = new Rect();
     @Override
@@ -149,9 +154,9 @@ public class JoystickView extends View {
         centerPos.set(cx, cy);
         radius = w <= h ? cx : cy;
 
-        if (0 == joystickPos.x || 0 == joystickPos.y) {
-            joystickPos.set(centerPos.x, centerPos.y);
-        }
+//        if (0 == joystickPos.x || 0 == joystickPos.y) {
+//            joystickPos.set(centerPos.x, centerPos.y);
+//        }
 
         switch (backgroundMode) {
             case MODE_PIC:
@@ -268,6 +273,12 @@ public class JoystickView extends View {
         drawable.draw(canvas);
 
         return bitmap;
+    }
+
+    public void reset()
+    {
+        joystickPos.set(centerPos.x,centerPos.y);
+        invalidate();
     }
 
     private void setRect(Rect res, int l, int t, int r, int b)

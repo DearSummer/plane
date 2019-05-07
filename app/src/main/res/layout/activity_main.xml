@@ -6,6 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
+    <SurfaceView
+        android:id="@+id/sv_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.billy.plane.view.JoystickView
         android:id="@+id/jv_left"
@@ -18,7 +22,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginBottom="35dp"
         app:joystickRadius="20dp"
-        app:areaRadius="125dp"
+        app:areaRadius="200dp"
         app:joystickBackground="@drawable/joystick_btn"/>
 
 
@@ -33,8 +37,9 @@
         android:layout_marginBottom="35dp"
         android:layout_marginRight="50dp"
         app:joystickRadius="20dp"
-        app:areaRadius="125dp"
+        app:areaRadius="200dp"
         app:joystickBackground="@drawable/joystick_btn"/>
+
 
 
 </RelativeLayout>
