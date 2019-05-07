@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="JoystickView">
+        <attr name="areaBackground" format="color|reference"/>
+        <attr name="joystickBackground" format="color|reference"/>
+        <attr name="joystickRadius" format="dimension"/>
+        <attr name="areaRadius" format="dimension"/>
+    </declare-styleable>
+
+</resources>
