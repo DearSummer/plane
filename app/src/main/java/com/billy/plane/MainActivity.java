@@ -53,9 +53,6 @@ public class MainActivity extends AppCompatActivity {
         JoystickView jv_l = findViewById(R.id.jv_left);
         JoystickView jv_r = findViewById(R.id.jv_right);
 
-        jv_l.reset();
-        jv_r.reset();
-
         jv_l.setOnJoystickActiveListener(new JoystickView.OnJoystickActiveListenerAdapter() {
             @Override
             public void onJoystickMove(Vec2 vec2) {
