@@ -1,6 +1,7 @@
 package com.billy.plane;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
@@ -12,6 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.billy.plane.view.JoystickView;
 
@@ -20,14 +25,29 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0x333;
-
+    private ImageView setting_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //取消标题
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //取消状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         initJoystick();
         registerPermission();
+        setting_btn = (ImageView)findViewById(R.id.settings);
+
+        setting_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
