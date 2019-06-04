@@ -22,7 +22,8 @@
         android:layout_marginBottom="20dp"
         app:joystickRadius="20dp"
         app:areaRadius="200dp"
-        app:joystickBackground="@drawable/joystick_btn"/>
+        app:joystickBackground="@drawable/center1"
+        app:areaBackground="@drawable/circle"/>
 
 
 <LinearLayout
@@ -74,7 +75,8 @@
         android:layout_marginRight="30dp"
         app:joystickRadius="20dp"
         app:areaRadius="200dp"
-        app:joystickBackground="@drawable/joystick_btn"/>
+        app:areaBackground="@drawable/circle"
+        app:joystickBackground="@drawable/center1"/>
 
 
 
