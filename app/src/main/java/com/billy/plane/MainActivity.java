@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -18,17 +17,24 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.billy.plane.constant.APIContants;
+import com.billy.plane.constant.APIConstants;
+import com.billy.plane.entity.dto.Vec2Back;
+import com.billy.plane.util.INetCallback;
 import com.billy.plane.util.NetworkUtils;
 import com.billy.plane.view.JoystickView;
+import com.billy.plane.view.PingView;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0x333;
-    private ImageView setting_btn;
+    private PingView pv_ping;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         initJoystick();
         registerPermission();
-        setting_btn = (ImageView)findViewById(R.id.settings);
+        ImageView setting_btn = findViewById(R.id.settings);
 
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,11 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void registerPermission()
     {
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this,Manifest.permission.INTERNET) != PackageManager.PERMISSION_DENIED)
         {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
+                    new String[]{
+                            Manifest.permission.INTERNET,
+                            Manifest.permission.CAMERA},
                     REQUEST_CODE);
         }
         else{
@@ -76,33 +84,74 @@ public class MainActivity extends AppCompatActivity {
         JoystickView jv_l = findViewById(R.id.jv_left);
         JoystickView jv_r = findViewById(R.id.jv_right);
 
+        pv_ping = findViewById(R.id.pv_ping);
+        pv_ping.setZOrderOnTop(true);
+
+        final Class<Vec2Back> cls = Vec2Back.class;
+        final HashMap<String,String> lmap = new HashMap<String, String>() {
+            {
+                put("name", "joystick_l");
+                put("x", String.valueOf(0));
+                put("y", String.valueOf(0));
+                put("time","0");
+            }
+        };
+        final INetCallback<Vec2Back> joystickLCallback = new INetCallback<Vec2Back>() {
+            @Override
+            public void onSuccess(Vec2Back msg) {
+                pv_ping.ping = System.currentTimeMillis() - msg.getTime();
+            }
+        };
         jv_l.setOnJoystickActiveListener(new JoystickView.OnJoystickActiveListenerAdapter() {
             @Override
-            public void onJoystickMove(final Vec2 vec2) {
-                Log.d("joystick_l",vec2.toString());
-                NetworkUtils.postMethod(APIContants.APIVec2.log,new HashMap<String, String>()
-                {
-                    {
-                        put("name", "joystick_l");
-                        put("x", String.valueOf(vec2.getX()));
-                        put("y", String.valueOf(vec2.getY()));
+            public void onJoystickMove(Vec2 vec2) {
+               // Log.d("joystick_l",vec2.toString());
+                long time = System.currentTimeMillis();
+                for (Map.Entry<String, String> stringStringEntry : lmap.entrySet()) {
+                    Map.Entry<String, String> entry = (Map.Entry) stringStringEntry;
+                    if (entry.getKey().equals("time")) {
+                        entry.setValue(String.valueOf(time));
+                    } else if (entry.getKey().equals("x")) {
+                        entry.setValue(String.valueOf(vec2.getX()));
+                    } else if (entry.getKey().equals("y")) {
+                        entry.setValue(String.valueOf(vec2.getY()));
                     }
-                },null,null);
+                }
+                NetworkUtils.postMethod(APIConstants.APIVec2.log, lmap,cls, joystickLCallback);
             }
         });
 
+
+        final HashMap<String,String> rmap = new HashMap<String, String>() {
+            {
+                put("name", "joystick_l");
+                put("x", String.valueOf(0));
+                put("y", String.valueOf(0));
+                put("time","0");
+            }
+        };
+        final INetCallback<Vec2Back> joystickRCallback = new INetCallback<Vec2Back>() {
+            @Override
+            public void onSuccess(Vec2Back msg) {
+                pv_ping.ping = System.currentTimeMillis() - msg.getTime();
+            }
+        };
         jv_r.setOnJoystickActiveListener(new JoystickView.OnJoystickActiveListenerAdapter() {
             @Override
-            public void onJoystickMove(final Vec2 vec2) {
-                Log.d("joystick_r",vec2.toString());
-                NetworkUtils.postMethod(APIContants.APIVec2.log,new HashMap<String, String>()
-                {
-                    {
-                        put("name", "joystick_r");
-                        put("x", String.valueOf(vec2.getX()));
-                        put("y", String.valueOf(vec2.getY()));
+            public void onJoystickMove(Vec2 vec2) {
+                //Log.d("joystick_r",vec2.toString());
+                long time = System.currentTimeMillis();
+                for (Map.Entry<String, String> stringStringEntry : rmap.entrySet()) {
+                    Map.Entry<String, String> entry = (Map.Entry) stringStringEntry;
+                    if (entry.getKey().equals("time")) {
+                        entry.setValue(String.valueOf(time));
+                    } else if (entry.getKey().equals("x")) {
+                        entry.setValue(String.valueOf(vec2.getX()));
+                    } else if (entry.getKey().equals("y")) {
+                        entry.setValue(String.valueOf(vec2.getY()));
                     }
-                },null,null);
+                }
+                NetworkUtils.postMethod(APIConstants.APIVec2.log, rmap, cls, joystickRCallback);
             }
         });
     }

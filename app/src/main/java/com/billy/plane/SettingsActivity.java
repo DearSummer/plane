@@ -8,8 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.billy.plane.Adapter.SettingAdapter;
-import com.billy.plane.Entity.Item_settting;
+import com.billy.plane.adapter.SettingAdapter;
+import com.billy.plane.entity.Item_settting;
 
 import java.util.ArrayList;
 import java.util.List;

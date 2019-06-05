@@ -59,7 +59,7 @@ public class NetworkUtils {
             @Override
             public void onFailure(Call call, IOException e) {
 
-                Log.d("Network","failure");
+                Log.d("Network",e.getMessage());
             }
 
             @Override
@@ -67,7 +67,7 @@ public class NetworkUtils {
                 if(response.isSuccessful()){
 
                     String str = response.body().string();
-                    Log.d("TAG", str);
+                //    Log.d("TAG", str);
                     callback.onSuccess(gson.fromJson(str,cls));
                 }
             }

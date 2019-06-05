@@ -1,4 +1,4 @@
-package com.billy.plane.Entity;
+package com.billy.plane.entity;
 
 public class Item_settting {
 

@@ -6,10 +6,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
+
+
     <SurfaceView
         android:id="@+id/sv_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.billy.plane.view.PingView
+        android:id="@+id/pv_ping"
+        android:layout_width="50dp"
+        android:layout_height="20dp" />
 
     <com.billy.plane.view.JoystickView
         android:id="@+id/jv_left"

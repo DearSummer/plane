@@ -1,4 +1,4 @@
-package com.billy.plane.Adapter;
+package com.billy.plane.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.billy.plane.Entity.Item_settting;
+import com.billy.plane.entity.Item_settting;
 import com.billy.plane.R;
 
 import java.util.List;
