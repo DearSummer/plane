@@ -18,9 +18,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.billy.plane.constant.APIContants;
+import com.billy.plane.util.NetworkUtils;
 import com.billy.plane.view.JoystickView;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,15 +78,31 @@ public class MainActivity extends AppCompatActivity {
 
         jv_l.setOnJoystickActiveListener(new JoystickView.OnJoystickActiveListenerAdapter() {
             @Override
-            public void onJoystickMove(Vec2 vec2) {
+            public void onJoystickMove(final Vec2 vec2) {
                 Log.d("joystick_l",vec2.toString());
+                NetworkUtils.postMethod(APIContants.APIVec2.log,new HashMap<String, String>()
+                {
+                    {
+                        put("name", "joystick_l");
+                        put("x", String.valueOf(vec2.getX()));
+                        put("y", String.valueOf(vec2.getY()));
+                    }
+                },null,null);
             }
         });
 
         jv_r.setOnJoystickActiveListener(new JoystickView.OnJoystickActiveListenerAdapter() {
             @Override
-            public void onJoystickMove(Vec2 vec2) {
+            public void onJoystickMove(final Vec2 vec2) {
                 Log.d("joystick_r",vec2.toString());
+                NetworkUtils.postMethod(APIContants.APIVec2.log,new HashMap<String, String>()
+                {
+                    {
+                        put("name", "joystick_r");
+                        put("x", String.valueOf(vec2.getX()));
+                        put("y", String.valueOf(vec2.getY()));
+                    }
+                },null,null);
             }
         });
     }

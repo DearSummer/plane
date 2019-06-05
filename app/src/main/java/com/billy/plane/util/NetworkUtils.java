@@ -21,8 +21,8 @@ import okhttp3.Response;
 
 public class NetworkUtils {
 
-    static OkHttpClient client  = new OkHttpClient();
-    static Gson gson = new Gson();
+    private static OkHttpClient client  = new OkHttpClient();
+    private static Gson gson = new Gson();
     public static <T> void getMethod(String url,final Class<T> cls,final INetCallback<T> callback)
     {
 
@@ -45,7 +45,7 @@ public class NetworkUtils {
 
     }
 
-    public static <T> void postMethod(String url, HashMap<String,String> map, final Class<T> cls, final INetCallback<T> callback){
+    public static <T> void postMethod(String url, HashMap<String,String> map, final Class<? extends T> cls, final INetCallback<T> callback){
         FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
         for (String key:map.keySet())
         {
